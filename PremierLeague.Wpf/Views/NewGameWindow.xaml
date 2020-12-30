@@ -24,6 +24,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
 
             </Grid.RowDefinitions>
 
@@ -50,6 +51,8 @@
 
             <Label Grid.Column="0" Grid.Row="5">Guestgoals:</Label>
             <TextBox Grid.Column="5" Grid.Row="5" Width="90" Margin="0,5,5,5" HorizontalAlignment="Left" Text="{Binding Path=GuestGoals, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" Margin="5,5,0,0" Width="80" Command="{Binding CmdSave}">Save</Button>
+          
         </Grid>
     </Grid>
 </Window>

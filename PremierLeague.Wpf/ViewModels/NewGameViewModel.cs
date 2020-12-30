@@ -173,13 +173,19 @@ namespace PremierLeague.Wpf.ViewModels
                             try
                             {
                                 using IUnitOfWork uow = new UnitOfWork();
+                                var HomeTeam = await uow.Teams.GetById(SelectedHomeTeam.Id);
+                                var GuestTeam = await uow.Teams.GetById(SelectedGuestTeam.Id);
                                 Games = new Game()
                                 {
                                     Round = Round,
+                                    HomeTeam = HomeTeam,
+                                    GuestTeam = GuestTeam,
                                     HomeGoals = Homegoals,
                                     GuestGoals = GuestGoals
                                 };
                                 await uow.Games.AddAsync(Games);
+                                await uow.SaveChangesAsync();
+                                Controller.CloseWindow(this);
                             }
                             catch (ValidationException ve)
                             {
@@ -196,7 +202,7 @@ namespace PremierLeague.Wpf.ViewModels
                                 }
                             }
                         },
-                    canExecute: _ => !HasErrors
+                    canExecute: _ => IsValid
                     );
                 }
                 return _cmdSave;

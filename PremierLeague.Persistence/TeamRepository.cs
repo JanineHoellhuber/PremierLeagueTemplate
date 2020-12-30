@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PremierLeague.Core.Contracts;
 using PremierLeague.Core.Entities;
 using System;
@@ -19,5 +20,11 @@ namespace PremierLeague.Persistence
         {
             await _dbContext.AddRangeAsync(teams);
         }
+
+        public async Task<Team> GetById(int id)
+        {
+           return await _dbContext.Teams.FirstOrDefaultAsync(t => t.Id == id);
+        }
+
     }
 }
