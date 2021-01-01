@@ -26,5 +26,12 @@ namespace PremierLeague.Persistence
            return await _dbContext.Teams.FirstOrDefaultAsync(t => t.Id == id);
         }
 
+
+        public async Task<IEnumerable<Team>> GetAllTeamsAsync()
+        {
+            return await _dbContext.Teams.ToArrayAsync();
+        }
+
+
     }
 }

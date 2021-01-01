@@ -52,7 +52,7 @@ namespace PremierLeague.Persistence
 
         public async Task<IEnumerable<Game>> GetAllGamesAsync()
         {
-            return _dbContext.Games.ToArray();
+            return _dbContext.Games.ToList();
         }
         public async Task AddAsync(Game games)
         {

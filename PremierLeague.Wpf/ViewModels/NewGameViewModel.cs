@@ -17,16 +17,16 @@ namespace PremierLeague.Wpf.ViewModels
     class NewGameViewModel : BaseViewModel
     {
         private IWindowController _controller;
-        private ObservableCollection<Game> _homeTeam;
-        private ObservableCollection<Game> _guestTeam;
-        private Game _selectedHomeTeam;
-        private Game _selectedGuestTeam;
+        private ObservableCollection<Team> _homeTeam;
+        private ObservableCollection<Team> _guestTeam;
+        private Team _selectedHomeTeam;
+        private Team _selectedGuestTeam;
         private Game _game;
         private int _round;
         private int _homeGoals;
         private int _guestGoals;
 
-        public ObservableCollection<Game> HomeTeam
+        public ObservableCollection<Team> HomeTeam
         {
             get => _homeTeam;
             set
@@ -37,7 +37,7 @@ namespace PremierLeague.Wpf.ViewModels
             }
         }
 
-        public ObservableCollection<Game> GuestTeam
+        public ObservableCollection<Team> GuestTeam
         {
             get => _guestTeam;
             set
@@ -70,13 +70,13 @@ namespace PremierLeague.Wpf.ViewModels
             }
         }
 
-        public int GuestGoals
+        public int Guestgoals
         {
             get => _guestGoals;
             set
             {
                 _guestGoals = value;
-                OnPropertyChanged(nameof(GuestGoals));
+                OnPropertyChanged(nameof(Guestgoals));
                 Validate();
             }
         }
@@ -91,7 +91,7 @@ namespace PremierLeague.Wpf.ViewModels
             }
         }
 
-        public Game SelectedHomeTeam
+        public Team SelectedHomeTeam
         {
             get => _selectedHomeTeam;
             set
@@ -101,7 +101,7 @@ namespace PremierLeague.Wpf.ViewModels
             }
         }
 
-        public Game SelectedGuestTeam
+        public Team SelectedGuestTeam
         {
             get => _selectedGuestTeam;
             set
@@ -120,7 +120,7 @@ namespace PremierLeague.Wpf.ViewModels
         }
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (Round > 1 && Round < 38)
+            if (Round < 1 && Round > 38)
             {
                 yield return new ValidationResult("$Round has to be between 1 and 38", new string[] { nameof(Round) });
             }
@@ -134,9 +134,9 @@ namespace PremierLeague.Wpf.ViewModels
                 yield return new ValidationResult("$Homegoals are < 0", new string[] { nameof(Homegoals) });
 
             }
-            if (GuestGoals < 0)
+            if (Guestgoals < 0)
             {
-                yield return new ValidationResult("$Guestgoals are < 0", new string[] { nameof(GuestGoals) });
+                yield return new ValidationResult("$Guestgoals are < 0", new string[] { nameof(Guestgoals) });
 
             }
         }
@@ -144,8 +144,8 @@ namespace PremierLeague.Wpf.ViewModels
         public async Task LoadHomeTeams()
         {
             using IUnitOfWork uow = new UnitOfWork();
-            var hometeams = await uow.Games.GetAllGamesAsync();
-            HomeTeam = new ObservableCollection<Game>(hometeams);
+            var hometeams = await uow.Teams.GetAllTeamsAsync();
+            HomeTeam = new ObservableCollection<Team>(hometeams);
             _selectedHomeTeam = HomeTeam.First();
 
 
@@ -153,15 +153,15 @@ namespace PremierLeague.Wpf.ViewModels
         public async Task LoadGuestTeams()
         {
             using IUnitOfWork uow = new UnitOfWork();
-            var guestteams = await uow.Games.GetAllGamesAsync();
-            GuestTeam = new ObservableCollection<Game>(guestteams);
+            var guestteams = await uow.Teams.GetAllTeamsAsync();
+            GuestTeam = new ObservableCollection<Team>(guestteams);
             _selectedGuestTeam = GuestTeam.First();
 
 
         }
 
         private ICommand _cmdSave;
-        public ICommand _CmdSave
+        public ICommand CmdSave
         {
             get
             {
@@ -175,13 +175,13 @@ namespace PremierLeague.Wpf.ViewModels
                                 using IUnitOfWork uow = new UnitOfWork();
                                 var HomeTeam = await uow.Teams.GetById(SelectedHomeTeam.Id);
                                 var GuestTeam = await uow.Teams.GetById(SelectedGuestTeam.Id);
-                                Games = new Game()
+                                Games = new Game
                                 {
                                     Round = Round,
                                     HomeTeam = HomeTeam,
                                     GuestTeam = GuestTeam,
                                     HomeGoals = Homegoals,
-                                    GuestGoals = GuestGoals
+                                    GuestGoals = Guestgoals
                                 };
                                 await uow.Games.AddAsync(Games);
                                 await uow.SaveChangesAsync();

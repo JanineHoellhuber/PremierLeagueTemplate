@@ -8,5 +8,6 @@ namespace PremierLeague.Core.Contracts
   {
     Task AddRangeAsync(IEnumerable<Team> teams);
         Task<Team> GetById(int id);
+        Task<IEnumerable<Team>> GetAllTeamsAsync();
     }
 }
