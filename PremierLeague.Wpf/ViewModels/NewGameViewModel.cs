@@ -98,6 +98,7 @@ namespace PremierLeague.Wpf.ViewModels
             {
                 _selectedHomeTeam = value;
                 OnPropertyChanged(nameof(SelectedHomeTeam));
+                Validate();
             }
         }
 
@@ -108,6 +109,7 @@ namespace PremierLeague.Wpf.ViewModels
             {
                 _selectedGuestTeam = value;
                 OnPropertyChanged(nameof(SelectedGuestTeam));
+                Validate();
             }
         }
 
@@ -124,8 +126,8 @@ namespace PremierLeague.Wpf.ViewModels
             {
                 yield return new ValidationResult("$Round has to be between 1 and 38", new string[] { nameof(Round) });
             }
-            if (HomeTeam.Equals(GuestTeam))
-            {
+            if (SelectedGuestTeam == SelectedHomeTeam)
+            { 
                 yield return new ValidationResult("$Hometeam is same as Guestteam", new string[] { nameof(HomeTeam) });
 
             }
